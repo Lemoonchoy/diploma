@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'voyage/css/styles.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Регистрация</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body style='
+background: fixed;
+background-image: url("{% static "voyage/images/reg_bg.jpg" %}");
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+'>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-2 border-dark mb-5">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="#">
+            <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Wayzy Logo" width="30" height="30"
+                 class="me-2">
+            Wayzy
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'catalog' %}">Каталог туров</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Профиль</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'favorites' %}">Избранное</a></li>
+                <li class="nav-item"><a class="nav-link active fw-semibold" href="{% url 'cart' %}">Корзинка</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tickets' %}">Билеты</a></li>
+            </ul>
+
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="btn btn-outline-success rounded-pill me-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-danger rounded-pill">Регистрация</a>
+                <!-- <a href="#" class="btn btn-warning rounded-pill">Выйти</a> -->
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="col-12 mb-5">
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+        <div class="col-4 p-3 bg-body-tertiary rounded-2 border border-2 border-dark">
+            <form method="post">
+                <h5 class="text-success">Регистрация</h5>
+                <div class="my-3">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label text-success">Логин</label>
+                        {{ form.username }}
+                        {% for error in form.username.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label text-success">Пароль</label>
+                        {{ form.password1 }}
+                        {% for error in form.password1.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password2" class="form-label text-success">Повторите пароль</label>
+                        {{ form.password2 }}
+                        {% for error in form.password2.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<footer class="bg-body-tertiary border-2 border-top border-dark mt-5 py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">Wayzy</h5>
+                <p class="text-muted">Открой мир вместе с нами — туры, впечатления и незабываемые путешествия.</p>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">Навигация</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-decoration-none text-dark">Главная страница</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Каталог туров</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Профиль</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Избранное</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Корзинка туров</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <h6 class="fw-bold">Аккаунт</h6>
+                <a href="{% url 'login' %}" class="btn btn-success btn-sm me-2 mb-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-danger btn-sm mb-2">Зарегистрироваться</a>
+                <!-- <a href="#" class="btn btn-warning mx-2">Выйти</a> -->
+                <p class="mt-3 mb-0 text-muted">© 2025 Wayzy. Все права защищены.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
+</script>
+</body>
+
+</html>

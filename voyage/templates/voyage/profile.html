@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Профиль</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'voyage/css/styles.css' %}">
+</head>
+
+<body style='
+background: fixed;
+background-image: url("{% static "voyage/images/reg_bg.jpg" %}");
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+'>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-2 border-dark mb-5">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="#">
+            <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Wayzy Logo" width="30" height="30"
+                 class="me-2">
+            Wayzy
+        </a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/index">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="/catalog/">Каталог туров</a></li>
+                <li class="nav-item"><a class="nav-link active fw-semibold" href="/profile/">Профиль</a></li>
+                <li class="nav-item"><a class="nav-link" href="/favorites/">Избранное</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart/">Корзинка</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tickets/">Билеты</a></li>
+            </ul>
+            <div class="d-flex">
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">
+                        Выйти
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-success rounded-pill me-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-danger rounded-pill">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5 min-vh-100">
+    <div class="row g-4 justify-content-center">
+
+        <!-- Профиль -->
+        <div class="col-md-6 col-lg-4">
+            <div class="bg-body-tertiary p-3 rounded border border-dark shadow-sm h-100">
+                <h5 class="text-warning fw-bold mb-3 text-center">👤 Профиль</h5>
+                <div class="text-center mb-3">
+                    <img src="{% if profile.photo %}{{ profile.photo.url }}{% else %}https://data.chpic.su/stickers/d/DeveloperIconsStickers/DeveloperIconsStickers_010.webp{% endif %}"
+                         class="rounded-circle border border-2 border-dark" width="90" height="90" alt="Аватар">
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Логин:</strong> {{ user.username }}</li>
+                    <li class="list-group-item"><strong>ФИО:</strong> {{ profile.full_name }}</li>
+                    <li class="list-group-item"><strong>Возраст:</strong> {{ profile.age }}</li>
+                    <li class="list-group-item"><strong>В браке:</strong>
+                        {% if profile.married %}Да{% else %}Нет{% endif %}
+                    </li>
+                    <li class="list-group-item"><strong>Права:</strong>
+                        {% if profile.has_license %}Есть{% else %}Нет{% endif %}
+                    </li>
+                    <li class="list-group-item"><strong>Избранное:</strong> {{ favorites.count }} туров</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Избранные туры -->
+        <div class="col-md-6 col-lg-5">
+            <div class="bg-body-tertiary p-3 rounded border border-dark shadow-sm h-100">
+                <h5 class="text-warning fw-bold mb-3 text-center">Избранные туры</h5>
+                <ul class="list-group">
+                    {% for fav in favorites %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ fav.tour.title }}
+                        <span class="text-muted small">{{ fav.tour.price }}$</span>
+                        <a href="{% url 'remove_from_favorites' fav.tour.id %}"
+                           class="btn btn-sm btn-outline-danger px-2 py-0">
+                            <i class="bi bi-trash3-fill"></i>
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item text-center text-muted">Нет избранных туров</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Форма редактирования -->
+        <div class="col-lg-6">
+            <div class="bg-body-tertiary p-4 rounded border border-dark shadow-sm h-100">
+                <h5 class="text-warning fw-bold mb-3 text-center">Изменить профиль</h5>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-outline-primary px-4">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-body-tertiary border-2 border-top border-dark mt-5 py-4">
+    <div class="container text-center text-muted">
+        © 2025 Wayzy. Все права защищены.
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

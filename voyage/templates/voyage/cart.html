@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>Корзина — Wayzy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'voyage/css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body style='
+    background: fixed;
+    background-image: url("{% static "voyage/images/bg.png" %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+'>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-2 border-dark mb-5">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="{% url 'index' %}">
+            <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Wayzy Logo" width="30" height="30"
+                 class="me-2">
+            Wayzy
+        </a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'catalog' %}">Каталог туров</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Профиль</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'favorites' %}">Избранное</a></li>
+                <li class="nav-item"><a class="nav-link active fw-semibold" href="{% url 'cart' %}">Корзинка</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tickets' %}">Билеты</a></li>
+            </ul>
+
+            <div class="d-flex">
+                {% if user.is_authenticated %}
+                <span class="me-3 fw-bold fs-5 text-success">Привет, {{ user.username }}!</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Выйти</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-success me-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-outline-danger">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container min-vh-100 mb-5">
+    <h2 class="fw-bold mb-4 text-center">Корзина билетов</h2>
+
+    {% if cart_items %}
+    <div class="row g-4">
+        {% for item in cart_items %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-dark h-100">
+                {% if item.tour.image %}
+                <img src="{{ item.tour.image.url }}" class="card-img-top" alt="{{ item.tour.title }}">
+                {% else %}
+                <img src="{% static 'voyage/images/default.jpg' %}" class="card-img-top" alt="Нет фото">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.tour.title }}</h5>
+                    <p class="card-text text-muted">{{ item.tour.slogan }}</p>
+                    <p class="fw-semibold fs-5">
+                        Цена: <span class="text-success">{{ item.tour.price }} $</span>
+                    </p>
+                    <p>Количество: {{ item.quantity }}</p>
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'remove_from_cart' item.tour.id %}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash"></i> Удалить
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">
+            <i class="bi bi-credit-card"></i> Оплатить
+        </a>
+    </div>
+    {% else %}
+    <p class="text-center text-muted fs-5">Ваша корзина пуста</p>
+    {% endif %}
+
+    <footer class="bg-body-tertiary border-top border-2 border-dark mt-5 py-5">
+        <div class="container">
+            <div class="row text-center text-md-start">
+
+
+                <div class="col-md-4 mb-4">
+                    <h4 class="fw-bold">Wayzy</h4>
+                    <p class="text-muted">
+                        🌍 Открой мир вместе с нами — туры, впечатления и незабываемые путешествия.
+                    </p>
+                </div>
+
+                <!-- Навигация -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-semibold mb-3">Навигация</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'index' %}" class="text-decoration-none text-dark">Главная страница</a></li>
+                        <li><a href="{% url 'catalog' %}" class="text-decoration-none text-dark">Каталог туров</a></li>
+                        <li><a href="{% url 'profile' %}" class="text-decoration-none text-dark">Профиль</a></li>
+                        <li><a href="{% url 'favorites' %}" class="text-decoration-none text-dark">Избранное</a></li>
+                        <li><a href="{% url 'cart' %}" class="text-decoration-none text-dark">Корзина туров</a></li>
+                    </ul>
+                </div>
+
+                <!-- Аккаунт -->
+                <div class="col-md-4 mb-4">
+                    {% if user.is_authenticated %}
+                    <span class="me-3 fw-bold fs-5 text-success">Привет, {{ user.username }}!</span>
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning rounded-pill">Выйти</button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-success me-2">Войти</a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-danger">Регистрация</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Авторские права -->
+            <div class="border-top border-dark pt-3 mt-4 text-center text-muted">
+                © 2025 Wayzy. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

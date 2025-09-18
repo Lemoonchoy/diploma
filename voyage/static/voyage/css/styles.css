@@ -1,0 +1,26 @@
+.custom-carousel-btn {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-control-prev.custom-carousel-btn {
+    left: 20px;
+}
+
+.carousel-control-next.custom-carousel-btn {
+    right: 20px;
+}
+
+
+.custom-carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
