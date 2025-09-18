@@ -37,7 +37,8 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'catalog' %}">Каталог туров</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'profile' %}">Профиль</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'favorites' %}">Избранное</a></li>
-                <li class="nav-item"><a class="nav-link text-white fw-semibold" href="{% url 'cart' %}">Корзинка</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-semibold" href="{% url 'cart' %}">Корзинка</a>
+                </li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'tickets' %}">Билеты</a></li>
             </ul>
 
@@ -94,8 +95,10 @@
         {% endfor %}
     </div>
     <div class="text-center mt-4">
-        <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">
-            <i class="bi bi-credit-card"></i> Оплатить
+        <a href="{% url 'checkout' %}"
+           class="btn btn-success btn-lg d-flex align-items-center justify-content-center gap-2 shadow-sm rounded-pill px-4">
+            <i class="bi bi-credit-card fs-5"></i>
+            <span class="fw-semibold">Оплатить заказ</span>
         </a>
     </div>
     {% else %}
