@@ -17,9 +17,9 @@
     background-repeat: no-repeat;
 '>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-2 border-dark mb-5">
+<nav class="navbar navbar-expand-lg shadow-sm" style="background: linear-gradient(90deg, #198754, #20c997);">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="{% url 'index' %}">
+        <a class="navbar-brand d-flex align-items-center fw-bold fs-4 text-white" href="{% url 'index' %}">
             <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Wayzy Logo" width="30" height="30"
                  class="me-2">
             Wayzy
@@ -33,41 +33,37 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'catalog' %}">Каталог туров</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' %}">Профиль</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active fw-semibold" href="/favorites/">Избранное</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'cart' %}">Корзинка</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'tickets' %}">Билеты</a>
-                </li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'index' %}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'catalog' %}">Каталог туров</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'profile' %}">Профиль</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-semibold"
+                                        href="{% url 'favorites' %}">Избранное</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'cart' %}">Корзинка</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'tickets' %}">Билеты</a></li>
             </ul>
 
-            <div class="d-flex">
+            <div class="d-flex align-items-center gap-2">
                 {% if user.is_authenticated %}
-                <span class="me-3 fw-bold fs-5 text-success">Привет, {{ user.username }}!</span>
-                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-warning rounded-pill">Выйти</button>
+                    <button type="submit" class="btn btn-danger fw-semibold px-3 rounded-3 shadow-sm">
+                        <i class="bi bi-box-arrow-right me-1"></i> Выйти
+                    </button>
                 </form>
                 {% else %}
-                <a href="{% url 'login' %}" class="btn btn-outline-success rounded-pill me-2">Войти</a>
-                <a href="{% url 'register' %}" class="btn btn-outline-danger rounded-pill">Регистрация</a>
+                <a href="{% url 'login' %}" class="btn btn-success fw-semibold px-3 rounded-3 shadow-sm">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Войти
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-warning fw-semibold px-3 rounded-3 shadow-sm">
+                    <i class="bi bi-person-plus-fill me-1"></i> Регистрация
+                </a>
                 {% endif %}
             </div>
+
         </div>
     </div>
 </nav>
+
 
 <div class="container my-5">
     <div class="bg-white shadow-sm rounded p-4 border border-1 border-dark">
@@ -127,12 +123,11 @@
             <div class="col-md-4 mb-3">
                 <h6 class="fw-bold">Навигация</h6>
                 <ul class="list-unstyled">
-                    <li><a href="{% url 'index' %}" class="text-decoration-none text-dark">Главная</a></li>
-                    <li><a href="{% url 'catalog' %}" class="text-decoration-none text-dark">Каталог</a></li>
+                    <li><a href="{% url 'index' %}" class="text-decoration-none text-dark">Главная страница</a></li>
+                    <li><a href="{% url 'catalog' %}" class="text-decoration-none text-dark">Каталог туров</a></li>
                     <li><a href="{% url 'profile' %}" class="text-decoration-none text-dark">Профиль</a></li>
                     <li><a href="{% url 'favorites' %}" class="text-decoration-none text-dark">Избранное</a></li>
                     <li><a href="{% url 'cart' %}" class="text-decoration-none text-dark">Корзинка туров</a></li>
-
                 </ul>
             </div>
 
@@ -145,7 +140,9 @@
                 </form>
                 {% else %}
                 <a href="{% url 'login' %}" class="btn btn-success btn-sm me-2 mb-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-danger btn-sm mb-2">Зарегистрироваться</a>
                 {% endif %}
+                <!-- <a href="#" class="btn btn-warning mx-2">Выйти</a> -->
                 <p class="mt-3 mb-0 text-muted">© 2025 Wayzy. Все права защищены.</p>
             </div>
         </div>

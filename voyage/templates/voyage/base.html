@@ -11,27 +11,46 @@
 <body>
 
 <!-- Навбар -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom border-dark mb-4">
+<nav class="navbar navbar-expand-lg shadow-sm" style="background: linear-gradient(90deg, #198754, #20c997);">
     <div class="container">
-        <a href="{% url 'index' %}" class="navbar-brand" style="font-weight:900; font-size:1.4rem;">
+        <a class="navbar-brand d-flex align-items-center fw-bold fs-4 text-white" href="{% url 'index' %}">
+            <img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Wayzy Logo" width="30" height="30"
+                 class="me-2">
             Wayzy
         </a>
 
-        <div class="d-flex">
-            {% if user.is_authenticated %}
-            <span class="me-3 fw-bold fs-3 text-success">Привет, {{ user.username }}!</span>
-            <form method="post" action="{% url 'logout' %}" class="d-inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-warning rounded-pill">Выйти</button>
-            </form>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            {% else %}
-            <a class="btn btn-outline-primary btn-sm me-2" href="{% url 'login' %}">Войти</a>
-            <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Регистрация</a>
-            {% endif %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'index' %}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'catalog' %}">Каталог туров</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'profile' %}">Профиль</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'favorites' %}">Избранное</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-semibold" href="{% url 'cart' %}">Корзинка</a>
+                </li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'tickets' %}">Билеты</a></li>
+            </ul>
+
+            <div class="d-flex">
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light me-2">Выйти</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-light me-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-warning">Регистрация</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </nav>
+
 
 <!-- Контент -->
 <main class="container">
