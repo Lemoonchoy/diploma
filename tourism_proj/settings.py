@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+load_dotenv()
 """
 Django settings for tourism_proj project.
 
@@ -20,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g*@wabzb=8age_4(ae6z39#awmye92xby*$u^@8m+)6p@41z&i'
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
